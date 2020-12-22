@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { use } = require('../routes/files.route');
 
 function auth (req, res, next) {
     try {
