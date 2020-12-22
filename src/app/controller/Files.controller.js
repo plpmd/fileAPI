@@ -4,9 +4,10 @@ class FilesController {
 
     async uploadFile(req, res) {
         try {
-            const { params, file, body } = req;
+            const { file } = req;
 
-            await FileService.uploadFile(params.id_cliente, file);
+            const message = await FileService.uploadFile(file);
+                        
             res.status(201).send({ message: 'Seu arquivo foi salvo com sucesso!' });
         } catch (error) {
 

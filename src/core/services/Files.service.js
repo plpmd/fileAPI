@@ -2,7 +2,7 @@ const fs = require('fs');
 
 class FilesService {
 
-    uploadFile(cpf, file) {
+    uploadFile(file) {
         return new Promise((resolve, reject) => {
 
             const biteArray = new Uint8Array(file.buffer);
@@ -16,15 +16,16 @@ class FilesService {
     }
 
     async findFile(fileName) {
+        console.log('TESTE::: ', fileName);
         return new Promise((resolve, reject) => {
             fs.readFile(`upload/${fileName}`, function (err, data) {
                 if (!err) {
                     const convertedData = Buffer.from(data.buffer, 'binary').toString('base64')
-                    return resolve({ message: 'Found: ' + convertedData });
+                    return resolve({ message: convertedData });
                 }
                 reject(err);
-            })
-        })
+            });
+        });
     }
 
     async returnAllFiles() {
