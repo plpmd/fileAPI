@@ -1,4 +1,4 @@
-const {uploadFile, findFile} = require('../../core/services/Files.service')
+const {uploadFile, findFile, findAllFiles} = require('../../core/services/Files.service')
 
 class FilesController {
 
@@ -24,10 +24,7 @@ class FilesController {
         try {
             const {params} = req;
 
-            console.log(params.nome_arquivo)
             const result = await findFile(params.nome_arquivo);
-
-
             res.status(201).send({message: 'Arquivo encontrado!', result: result })
         } catch (error) {
             const { message, stack} = error;
@@ -35,6 +32,26 @@ class FilesController {
             res.status(500).send({ message, stack});
         }
     }
+
+    async findAllFiles(req, res) {
+        try {
+            const totalFiles = await findAllFiles();
+            const files = new Array();
+            for(var i = 0; i < totalFiles.length ; i ++ ){
+                const file = await findFile(totalFiles[i])
+                files.push(file)
+            }
+
+
+            res.status(201).send({message: 'Arquivos encontrados!', result: files })
+        } catch (error) {
+            const { message, stack} = error;
+
+            res.status(500).send({ message, stack});
+        }
+        
+       
+    }
 }
 
-module.exports = new FilesController();
+module.exports = new FilesController(); 

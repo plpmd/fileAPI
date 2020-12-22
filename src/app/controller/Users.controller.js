@@ -46,10 +46,13 @@ class UserController {
                             error: new Error('Incorrect password')
                         });
                     }
-                    const token = jwt
+                    const token = jwt.sign(
+                        {userId: userId},
+                        'RANDOM_TOKEN_SECRET',
+                        {expiresIn: '24h'});
                     res.status(200).json({
                         userId: userId,
-                        token: 'token'
+                        token: token
                     })
                 }
             ).catch(

@@ -1,7 +1,7 @@
 const fs = require('fs');
 
+
 class FilesService {
-    
     uploadFile(cpf, file) {
         console.log('CPF DO CLIENTE: ', cpf);
         return new Promise((resolve, reject) => {
@@ -24,10 +24,43 @@ class FilesService {
                     const convertedData = Buffer.from(data.buffer, 'binary').toString('base64')
                     return resolve({message: 'Found: ' + convertedData});
                 }
-                reject(err)
+                reject(err);
             })
         })
     }
+
+
+    findAllFiles() {
+        return new Promise((resolve, reject) => { 
+            fs.readdir('upload', function(err, filenames){
+                if(!err){
+                    return resolve(filenames)
+                }
+                reject(err);
+            });
+        })
+    }
+    
+
+
 }
 
 module.exports = new FilesService();
+
+
+/* fs.readdir('upload', function(err, filenames){
+
+    for(var i = 0; i < filenames.length; i ++){
+
+        fs.readFile(`upload/${filenames[i]}`, function(err, data) {
+
+            if(!err) {
+                const convertedData = Buffer.from(data.buffer, 'binary').toString('base64')
+            }
+            reject(err);
+        })
+    }
+    resolve({message: files})
+
+
+}) */
